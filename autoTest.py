@@ -140,7 +140,7 @@ def plot(data):
 def logging(round, data):
     # Save result to a text file
     with open("ResultHistory", "a+") as f:
-        f.write("Round " + round)
+        f.write("Round " + round + "\n")
         for i in range(len(threadNumber)):
             f.write("Thread Number: " + str(threadNumber[i]) + ": " + ", ".join(map(str, data[i])) + "\n")
 
