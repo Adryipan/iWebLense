@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 from datetime import datetime
 
-threadNumber = [1,2, 4, 8, 16, 30]
+threadNumber = [1]
 
 def sshConnect(replicas):
     hostname = "115.146.87.78"
@@ -108,13 +108,13 @@ def autoTest():
             print("Thread number of " + str(thisThread))
             # run the command
             print("Getting result....")
-            command = "python client/iWebLens_client.py client/inputfolder/ http://115.146.87.78/api/detect " + str(thisThread)
+            command = "python client/iWebLens_client.py client/inputfolderfordemo/ http://115.146.87.78/api/detect " + str(thisThread)
             p = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
             output = p.stdout.read().decode().split("\n")
-            resultTime = output[-2].split(" ")[-1]
+            resultTime = float(output[-2].split(" ")[-1]) / thisThread
             tempResult.append(resultTime)
             print("Result obtained")
-            print("The average time for the current trial is: " + resultTime)
+            print("The average time for the current trial is: " + str(resultTime))
             print("--------------------\n")
         # Add the result for all three replica to the result list for all thread
         results.append(tempResult)
@@ -150,7 +150,7 @@ def main():
         f.write("Date: " + currentDT + "\n")
     # Generate the result
     average = []
-    for i in range(3):
+    for i in range(1):
         print("---------------Running trial " + str(i+1) + "--------------------")
         print("==================================================")
         if i == 0:
