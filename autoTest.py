@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 from datetime import datetime
 
-threadNumber = [1,2]
+threadNumber = [1,2, 4, 8, 16, 30]
 
 def sshConnect(replicas):
     hostname = "115.146.87.78"
@@ -142,7 +142,7 @@ def logging(round, data):
     with open("ResultHistory", "a+") as f:
         f.write("Round " + round)
         for i in range(len(threadNumber)):
-            f.write("Thread Number: " + str(threadNumber[i]) + ": " + ",".join(map(str, data[i])) + "\n")
+            f.write("Thread Number: " + str(threadNumber[i]) + ": " + ", ".join(map(str, data[i])) + "\n")
 
 def main():
     with open("ResultHistory", "a+") as f:
@@ -150,7 +150,7 @@ def main():
         f.write("Date: " + currentDT + "\n")
     # Generate the result
     average = []
-    for i in range(2):
+    for i in range(3):
         print("---------------Running trial " + str(i+1) + "--------------------")
         print("==================================================")
         if i == 0:
@@ -158,7 +158,7 @@ def main():
             print("This is the first trial")
             print(average)
             print("Logging current round data")
-            logging("Round " + str(i + 1), average)
+            logging(str(i + 1), average)
             print("Logged")
         else:
             # Take average witht the new results
