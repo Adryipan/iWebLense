@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 from datetime import datetime
 
-threadNumber = [1,2,4,8,16,32]
+threadNumber = [1,2]
 
 def sshConnect(replicas):
     hostname = "115.146.87.78"
@@ -135,30 +135,39 @@ def plot(data):
     plt.xlabel("Number of replicas")
     plt.ylabel("Average response time (second)")
     plt.savefig('resultPlot1.png', bbox_inches='tight')
+
+
+def logging(round, data):
     # Save result to a text file
     with open("ResultHistory", "a+") as f:
-        currentDT = datetime.now().strftime("%d/%m/%Y %H:%M")
-        f.write("Date: " + currentDT)
-        f.write(data)
-
-
+        f.write("Round " + round)
+        for i in range(len(threadNumber)):
+            f.write("Thread Number: " + str(threadNumber[i]) + ": " + ",".join(map(str, data[i])) + "\n")
 
 def main():
+    with open("ResultHistory", "a+") as f:
+        currentDT = datetime.now().strftime("%d/%m/%Y %H:%M")
+        f.write("Date: " + currentDT + "\n")
     # Generate the result
     average = []
-    for i in range(3):
+    for i in range(2):
         print("---------------Running trial " + str(i+1) + "--------------------")
         print("==================================================")
         if i == 0:
             average = autoTest()
             print("This is the first trial")
             print(average)
+            print("Logging current round data")
+            logging("Round " + str(i + 1), average)
+            print("Logged")
         else:
             # Take average witht the new results
             result = autoTest()
-            print("This is the " + str(i+1) + " repeat")
-            print(average)
+            print(str(i+1) + " repeat")
             print(result)
+            print("Logging current round data")
+            print("logged")
+            logging(str(i+1), result)
             temp = (np.asarray(average, dtype=float) + np.asarray(result, dtype=float)) / 2
             average = np.array(temp).tolist()
             print(average)
